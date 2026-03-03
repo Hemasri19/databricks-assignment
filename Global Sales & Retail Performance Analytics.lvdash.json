@@ -1,0 +1,767 @@
+{
+  "datasets": [
+    {
+      "name": "10db58bd",
+      "displayName": "gold_region_trend",
+      "queryLines": [
+        "SELECT region, order_period, total_revenue, total_profit, total_orders\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_region_trend\r\n",
+        "ORDER BY order_period :parameter"
+      ],
+      "parameters": [
+        {
+          "displayName": "parameter",
+          "keyword": "parameter",
+          "dataType": "STRING",
+          "defaultSelection": {}
+        }
+      ]
+    },
+    {
+      "name": "f71761e0",
+      "displayName": "gold_region_trend",
+      "queryLines": [
+        "SELECT region, order_period, total_revenue, total_profit, total_orders\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_region_trend\r\n",
+        "ORDER BY order_period"
+      ]
+    },
+    {
+      "name": "4ba696e2",
+      "displayName": "gold_top_products",
+      "queryLines": [
+        "SELECT product_id, total_revenue, total_profit, total_orders\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_top_products\r\n",
+        "ORDER BY total_revenue DESC\r\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "2de40af8",
+      "displayName": "gold_top_products",
+      "queryLines": [
+        "SELECT * FROM global_sales_analytics.sales_analytics.gold_top_products"
+      ]
+    },
+    {
+      "name": "7ed48153",
+      "displayName": "gold_customer_analysis",
+      "queryLines": [
+        "SELECT region, product_id, total_revenue, total_profit, total_orders\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_profitability_analysis"
+      ]
+    },
+    {
+      "name": "d73bab30",
+      "displayName": "gold_profitability_analysis",
+      "queryLines": [
+        "select * from global_sales_analytics.sales_analytics.gold_customer_analysis limit 100"
+      ]
+    },
+    {
+      "name": "2cc763d3",
+      "displayName": "gold_customer_analysis",
+      "queryLines": [
+        "SELECT customer_id, region, total_orders, total_revenue, total_profit\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_customer_analysis\r\n",
+        "ORDER BY total_revenue DESC\r\n",
+        "LIMIT 50"
+      ]
+    },
+    {
+      "name": "fab0cdad",
+      "displayName": "gold_profitability_analysis",
+      "queryLines": [
+        "SELECT customer_id, region, total_orders, total_revenue, total_profit\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_customer_analysis\r\n",
+        "ORDER BY total_revenue DESC\r\n",
+        "LIMIT 50;\r\n",
+        " \r\n",
+        "SELECT region, product_id, total_revenue, total_profit, total_orders\r\n",
+        "FROM global_sales_analytics.sales_analytics.gold_profitability_analysis\r\n",
+        "\r\n"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "46455b8f",
+      "displayName": "Sales & Retail Analytics",
+      "layout": [
+        {
+          "widget": {
+            "name": "sales-trends-by-region-and-time-period",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f71761e0",
+                  "fields": [
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    },
+                    {
+                      "name": "sum(total_profit)",
+                      "expression": "SUM(`total_profit`)"
+                    },
+                    {
+                      "name": "sum(total_orders)",
+                      "expression": "SUM(`total_orders`)"
+                    },
+                    {
+                      "name": "order_period",
+                      "expression": "`order_period`"
+                    },
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`region` IN (`region`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Sales Trends by Region and Time Period",
+                "headerAlignment": "center"
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "order_period",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "region",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "sum(total_profit)"
+                  },
+                  {
+                    "fieldName": "sum(total_orders)"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top-performing-products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2de40af8",
+                  "fields": [
+                    {
+                      "name": "total_profit",
+                      "expression": "`total_profit`"
+                    },
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    },
+                    {
+                      "name": "product_id",
+                      "expression": "`product_id`"
+                    },
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`product_id` IN (`product_id`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Top Performing Products\n",
+                "headerAlignment": "center"
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "total_profit"
+                  },
+                  {
+                    "fieldName": "total_orders"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "customer-purchase-patterns",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2cc763d3",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    },
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Customer Purchase Patterns",
+                "headerAlignment": "center"
+              },
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "customer_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "region",
+                  "axis": {
+                    "labelAngle": 45
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "total_revenue",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "greenblue"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 16,
+            "width": 10,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "profitability-by-region-product",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "fab0cdad",
+                  "fields": [
+                    {
+                      "name": "product_id",
+                      "expression": "`product_id`"
+                    },
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    },
+                    {
+                      "name": "total_profit",
+                      "expression": "`total_profit`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Profitability by Region × Product",
+                "headerAlignment": "center"
+              },
+              "mark": {
+                "colors": [
+                  "#939D07",
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "region",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_profit",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "product_id",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "P102",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 2
+                        }
+                      },
+                      {
+                        "value": "P101",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "total-orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f71761e0",
+                  "fields": [
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Revenue",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_revenue)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total-profit",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f71761e0",
+                  "fields": [
+                    {
+                      "name": "sum(total_profit)",
+                      "expression": "SUM(`total_profit`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`order_period` <=> `order_period`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Profit",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_profit)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total-orders-1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f71761e0",
+                  "fields": [
+                    {
+                      "name": "sum(total_orders)",
+                      "expression": "SUM(`total_orders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Orders",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_orders)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "d0aa98fc",
+            "queries": [
+              {
+                "name": "dashboards/01f11616502f1a36af75df3edb61dcdb/datasets/01f11619ab9d15aa9b1e2344159d51bb_yearly(order_period)",
+                "query": {
+                  "datasetName": "f71761e0",
+                  "fields": [
+                    {
+                      "name": "yearly(order_period)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `order_period`)"
+                    },
+                    {
+                      "name": "yearly(order_period)_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "yearly(order_period)",
+                    "displayName": "YEARLY(order_period)",
+                    "queryName": "dashboards/01f11616502f1a36af75df3edb61dcdb/datasets/01f11619ab9d15aa9b1e2344159d51bb_yearly(order_period)"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "d0aeffac",
+            "queries": [
+              {
+                "name": "dashboards/01f11616502f1a36af75df3edb61dcdb/datasets/01f1161b97f91fc2849a4e5085096e51_region",
+                "query": {
+                  "datasetName": "7ed48153",
+                  "fields": [
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    },
+                    {
+                      "name": "region_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "disallowAll": false,
+              "selection": {
+                "defaultSelection": {
+                  "values": {
+                    "dataType": "STRING",
+                    "values": [
+                      {
+                        "value": "east"
+                      }
+                    ]
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region",
+                    "queryName": "dashboards/01f11616502f1a36af75df3edb61dcdb/datasets/01f1161b97f91fc2849a4e5085096e51_region"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 0,
+            "width": 4,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

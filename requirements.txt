@@ -1,0 +1,11 @@
+# Astro Runtime includes the following pre-installed providers packages: https://www.astronomer.io/docs/astro/runtime-image-architecture#provider-packages
+pandas==2.2.2
+numpy==1.26.4
+pyspark==3.5.1
+python-dotenv==1.0.1
+pyarrow==15.0.2
+fastparquet==2024.2.0
+requests
+apache-airflow-providers-databricks
+apache-airflow-providers-microsoft-azure
+azure-storage-blob
