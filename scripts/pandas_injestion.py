@@ -99,66 +99,66 @@ def run_ingestion():
     logger.info("Silver layer saved successfully at: %s", silver_path)
     logger.info("Files now in silver folder: %s", os.listdir(SILVER_DIR))
 
-    raw_path = "data/bronze/"
-    files = glob(os.path.join(raw_path, "*"))
+    # raw_path = "data/bronze/"
+    # files = glob(os.path.join(raw_path, "*"))
 
-    all_data = []
+    # all_data = []
 
-    logger.info("Reading raw files...")
+    # logger.info("Reading raw files...")
 
-    for file in files:
-        if file.endswith(".csv"):
-            df = pd.read_csv(file)
-        elif file.endswith(".xlsx"):
-            df = pd.read_excel(file)
-        else:
-            continue
+    # for file in files:
+    #     if file.endswith(".csv"):
+    #         df = pd.read_csv(file)
+    #     elif file.endswith(".xlsx"):
+    #         df = pd.read_excel(file)
+    #     else:
+    #         continue
 
-        df.columns = df.columns.str.lower().str.strip()
-        validate_schema(df)
-        all_data.append(df)
+    #     df.columns = df.columns.str.lower().str.strip()
+    #     validate_schema(df)
+    #     all_data.append(df)
 
-    if not all_data:
-        raise ValueError("No valid files found.")
+    # if not all_data:
+    #     raise ValueError("No valid files found.")
 
-    df = pd.concat(all_data, ignore_index=True)
+    # df = pd.concat(all_data, ignore_index=True)
 
-    logger.info("Combined shape: %s", df.shape)
+    # logger.info("Combined shape: %s", df.shape)
 
-    # Cleaning
-    df.drop_duplicates(inplace=True)
-    df.fillna(0, inplace=True)
-    df["order_date"] = pd.to_datetime(df["order_date"])
+    # # Cleaning
+    # df.drop_duplicates(inplace=True)
+    # df.fillna(0, inplace=True)
+    # df["order_date"] = pd.to_datetime(df["order_date"])
 
-    # Derived Metrics
-    df["revenue"] = df["quantity"] * df["unit_price"]
-    df["profit"] = df["revenue"] - (df["quantity"] * df["cost_price"])
-    df["profit_margin"] = df["profit"] / df["revenue"]
+    # # Derived Metrics
+    # df["revenue"] = df["quantity"] * df["unit_price"]
+    # df["profit"] = df["revenue"] - (df["quantity"] * df["cost_price"])
+    # df["profit_margin"] = df["profit"] / df["revenue"]
 
-    # Pandas GroupBy (Mandatory)
-    regional_summary = (
-        df.groupby("region")
-        .agg(
-            total_revenue=("revenue", "sum"),
-            total_profit=("profit", "sum"),
-            total_orders=("order_id", "count")
-        )
-        .reset_index()
-    )
+    # # Pandas GroupBy (Mandatory)
+    # regional_summary = (
+    #     df.groupby("region")
+    #     .agg(
+    #         total_revenue=("revenue", "sum"),
+    #         total_profit=("profit", "sum"),
+    #         total_orders=("order_id", "count")
+    #     )
+    #     .reset_index()
+    # )
 
-    logger.info("Regional Summary (Pandas):")
-    logger.info("\n%s", regional_summary)
+    # logger.info("Regional Summary (Pandas):")
+    # logger.info("\n%s", regional_summary)
 
-    os.makedirs("data/silver", exist_ok=True)
-    silver_path = os.path.join("data/silver", "sales_silver.parquet")
+    # os.makedirs("data/silver", exist_ok=True)
+    # silver_path = os.path.join("data/silver", "sales_silver.parquet")
 
-    logger.info("Current working directory: %s", os.getcwd())
-    logger.info("Files in silver folder: %s", os.listdir("data/silver"))
+    # logger.info("Current working directory: %s", os.getcwd())
+    # logger.info("Files in silver folder: %s", os.listdir("data/silver"))
 
-    # Convert all datetime columns to microsecond precision
-    for col in df.select_dtypes(include=["datetime64[ns]"]).columns:
-        df[col] = df[col].astype("datetime64[us]")
+    # # Convert all datetime columns to microsecond precision
+    # for col in df.select_dtypes(include=["datetime64[ns]"]).columns:
+    #     df[col] = df[col].astype("datetime64[us]")
 
-    df.to_parquet("data/silver/sales_silver.parquet", index=False)
+    # df.to_parquet("data/silver/sales_silver.parquet", index=False)
 
-    logger.info("Silver layer created successfully.")
+    # logger.info("Silver layer created successfully.")
